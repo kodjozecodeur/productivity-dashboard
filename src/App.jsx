@@ -1,11 +1,9 @@
-import Sidebar from "./components/Sidebar";
+import TodoApp from "./components/TodoApp";
 
 function App() {
   return (
     <>
-      <div className="flex h-screen bg-gray-100">
-        <Sidebar />
-      </div>
+      <TodoApp />
     </>
   );
 }
