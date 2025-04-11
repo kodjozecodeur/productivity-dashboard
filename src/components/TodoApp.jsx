@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import TodoTile from "./TodoTile";
 
@@ -27,6 +27,36 @@ const TodoApp = () => {
     );
     console.log(setTodos);
   };
+  //handle delete
+  const handleDelete = (id) => {
+    setTodos(
+      todos.filter((todo) => {
+        return todo.id !== id;
+      })
+    );
+  };
+  //handle edit
+
+  const handleEdit = (id, newText) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, text: newText } : todo
+    );
+    setTodos(updatedTodos);
+  };
+  // Load todos on mount
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+  }, []);
+
+  // Save todos on change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  // ---------------------------------------------------------------------------------------------//
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
@@ -50,7 +80,13 @@ const TodoApp = () => {
         </div>
         {/* render the todos in a tile, using map */}
         {todos.map((todo) => (
-          <TodoTile key={todo.id} todo={todo} handleToggle={handleToggle} />
+          <TodoTile
+            key={todo.id}
+            todo={todo}
+            handleToggle={handleToggle}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
         ))}
       </div>
     </div>
