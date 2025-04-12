@@ -9,7 +9,10 @@ const QuotesTiles = () => {
   useEffect(() => {
     async function loadQuote() {
       try {
-        const res = await fetch("https://api.adviceslip.com/advice");
+        const res = await fetch(
+          `https://api.adviceslip.com/advice?timestamp=${new Date().getTime()}`
+        );
+
         const data = await res.json();
         setQuote({
           text: `"${data.slip.advice}"`,
